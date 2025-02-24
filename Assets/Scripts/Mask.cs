@@ -4,6 +4,13 @@ using UnityEngine;
 
 public abstract class Mask : MonoBehaviour
 {
+    public enum MaskType
+{
+    JumpMask,
+    SpeedMask,
+    SizeMask
+}
+public MaskType maskType;
     public GameObject maskPrefab; 
     public Sprite maskSprite;   
 
