@@ -51,5 +51,9 @@ public class Player : MonoBehaviour
 
          currentMaskObject = Instantiate(newMask.maskPrefab, maskHolder.position, Quaternion.identity);
         currentMaskObject.transform.SetParent(maskHolder); 
+
+         currentMask.ShowMaskOnPlayer(maskHolder);
     }
+
+ 
 }
