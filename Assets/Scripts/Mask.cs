@@ -3,7 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public abstract class Mask : MonoBehaviour
+
 {
+    public GameObject maskPrefab;
+    
     public Sprite maskSprite; 
 
     public abstract void ApplyEffect(Player player);
@@ -15,6 +18,7 @@ public abstract class Mask : MonoBehaviour
         {
             Player player = other.GetComponent<Player>();
             player.EquipMask(this);
+            Destroy(gameObject); 
         }
     }
 }

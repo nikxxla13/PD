@@ -10,8 +10,11 @@ public class Player : MonoBehaviour
 
     public Transform groundCheck; 
     public LayerMask groundMask;  
+    public Transform maskHolder;
 
     private Mask currentMask;
+    private GameObject currentMaskObject;
+    
 
     void Start()
     {
@@ -22,7 +25,7 @@ public class Player : MonoBehaviour
     {
         moveInput = Input.GetAxis("Horizontal");
 
-        // Ground check with debugging
+     
         isGrounded = Physics2D.OverlapCircle(groundCheck.position, 0.2f, groundMask);
         Debug.Log("Is Grounded: " + isGrounded);
 
@@ -30,7 +33,7 @@ public class Player : MonoBehaviour
 
         if (isGrounded && Input.GetButtonDown("Jump"))
         {
-            Debug.Log("JumpForce Before Jump: " + jumpForce); // Debugging
+            Debug.Log("JumpForce Before Jump: " + jumpForce); 
             rb.velocity = new Vector2(rb.velocity.x, jumpForce);
         }
     }
@@ -45,5 +48,8 @@ public class Player : MonoBehaviour
         currentMask = newMask;
         currentMask.ApplyEffect(this);
         Debug.Log("Equipped Mask: " + newMask.name);
+
+         currentMaskObject = Instantiate(newMask.maskPrefab, maskHolder.position, Quaternion.identity);
+        currentMaskObject.transform.SetParent(maskHolder); 
     }
 }
