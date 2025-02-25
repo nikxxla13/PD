@@ -9,12 +9,10 @@ public class SpeedMask : Mask
     public override void ApplyEffect(Player player)
     {
         player.moveSpeed *= speedBoost;
-        player.GetComponent<SpriteRenderer>().color = Color.red;
     }
 
     public override void RemoveEffect(Player player)
     {
         player.moveSpeed /= speedBoost;
-        player.GetComponent<SpriteRenderer>().color = Color.white;
     }
 }
