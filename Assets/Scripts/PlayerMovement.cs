@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;  // For UI management
 
 public class Player : MonoBehaviour
 {
@@ -15,105 +14,85 @@ public class Player : MonoBehaviour
     public LayerMask groundMask;  
     public Transform maskHolder;
 
-    private Mask currentMask;
-    private GameObject currentMaskObject;
+    private GameObject currentMaskObject; 
+    private List<Mask> collectedMasks = new List<Mask>();  
 
-    public List<Mask> collectedMasks = new List<Mask>(); // List to store collected masks
-    public Image maskUIImage;  // UI Image to show current mask
-    public List<Button> maskButtons = new List<Button>(); // List of UI buttons for switching masks
+    public List<GameObject> maskPrefabs; 
+    private List<GameObject> activeMaskObjects = new List<GameObject>();  
 
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();  
 
-        // Initialize buttons to switch masks
-        foreach (Button button in maskButtons)
+        foreach (GameObject maskPrefab in maskPrefabs)
         {
-            button.onClick.AddListener(() => EquipMaskFromButton(button)); // Equip mask when button is clicked
+            GameObject maskInstance = Instantiate(maskPrefab, maskHolder.position, Quaternion.identity, maskHolder);
+            maskInstance.SetActive(false);  
+            activeMaskObjects.Add(maskInstance);
         }
     }
 
     void Update()
     {
         moveInput = Input.GetAxis("Horizontal");
-
-        // Check if the player is grounded
         isGrounded = Physics2D.OverlapCircle(groundCheck.position, 0.2f, groundMask);
-        Debug.Log("Is Grounded: " + isGrounded);
-
-        // Handle player movement
         rb.velocity = new Vector2(moveInput * moveSpeed, rb.velocity.y);
 
-        // Handle jump
         if (isGrounded && Input.GetButtonDown("Jump"))
         {
-            Debug.Log("JumpForce Before Jump: " + jumpForce);
             rb.velocity = new Vector2(rb.velocity.x, jumpForce);
         }
+
+        CheckForMaskSwitch();
     }
 
-    // Equip the mask when collected
+    void CheckForMaskSwitch()
+    {
+        Debug.Log("Checking for mask switch");
+
+        if (collectedMasks.Count == 0) return; 
+
+        if (Input.GetKeyDown(KeyCode.F) && collectedMasks.Count > 0)
+        {
+            Debug.Log("Switching to Mask F");
+            EquipMask(collectedMasks[0]); 
+        }
+        else if (Input.GetKeyDown(KeyCode.G) && collectedMasks.Count > 1)
+        {
+            Debug.Log("Switching to Mask G");
+            EquipMask(collectedMasks[1]);  
+        }
+        else if (Input.GetKeyDown(KeyCode.H) && collectedMasks.Count > 2)
+        {
+            Debug.Log("Switching to Mask H");
+            EquipMask(collectedMasks[2]);  
+        }
+    }
+
     public void EquipMask(Mask newMask)
     {
-        // Remove the current mask's effect
-        if (currentMask != null)
+        if (newMask != null)
         {
-            currentMask.RemoveEffect(this);
-        }
-
-        // Apply new mask's effect
-        currentMask = newMask;
-        currentMask.ApplyEffect(this);
-        Debug.Log("Equipped Mask: " + newMask.name);
-
-        // Create the mask object and attach it to the mask holder
-        currentMaskObject = Instantiate(newMask.maskPrefab, maskHolder.position, Quaternion.identity);
-        currentMaskObject.transform.SetParent(maskHolder);
-
-        // Show the mask on the player (can include sprite, position adjustments, etc.)
-        currentMask.ShowMaskOnPlayer(maskHolder);
-
-        // Update the UI to display the current mask
-        if (maskUIImage != null && newMask.maskSprite != null)
-        {
-            maskUIImage.sprite = newMask.maskSprite; // Display the current mask sprite in the UI
-        }
-    }
-
-    // Equip the mask based on the button clicked
-    public void EquipMaskFromButton(Button button)
-{
-    int index = maskButtons.IndexOf(button);
-    if (index >= 0 && index < collectedMasks.Count)
-    {
-        Debug.Log("Equipping Mask: " + collectedMasks[index].name);  // Debug log
-        EquipMask(collectedMasks[index]); // Equip the selected mask
-    }
-}
-
-    // Collect a mask (add to the list and update the UI)
-    public void CollectMask(Mask newMask)
-{
-    if (!collectedMasks.Contains(newMask))
-    {
-        collectedMasks.Add(newMask); // Add the mask to the collected list
-        Debug.Log("Collected Mask: " + newMask.name);  // Debug log to confirm collection
-        UpdateMaskButtons(); // Update UI buttons
-    }
-}
-
-
-    private void UpdateMaskButtons()
-    {
-        // Make sure there are enough buttons for each mask in the collected list
-        for (int i = 0; i < collectedMasks.Count; i++)
-        {
-            // If the button is not active, show it
-            if (maskButtons[i] != null)
+            if (currentMaskObject != null)
             {
-                maskButtons[i].gameObject.SetActive(true);
-                maskButtons[i].GetComponentInChildren<Text>().text = collectedMasks[i].maskPrefab.name; // Display the name of the mask on the button
+                currentMaskObject.SetActive(false);
             }
+
+            GameObject newMaskObject = Instantiate(newMask.maskPrefab, maskHolder.position, Quaternion.identity);
+            newMaskObject.transform.SetParent(maskHolder);
+            currentMaskObject = newMaskObject;
+
+            newMask.ApplyEffect(this);
+            Debug.Log("Equipped Mask: " + newMask.name); 
+        }
+    }
+
+    public void CollectMask(Mask newMask)
+    {
+        if (newMask != null && !collectedMasks.Contains(newMask))
+        {
+            collectedMasks.Add(newMask);  
+            Debug.Log("Mask collected: " + newMask.name);
         }
     }
 }

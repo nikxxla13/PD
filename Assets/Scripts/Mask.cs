@@ -5,14 +5,15 @@ using UnityEngine;
 public abstract class Mask : MonoBehaviour
 {
     public enum MaskType
-{
-    JumpMask,
-    SpeedMask,
-    SizeMask
-}
-public MaskType maskType;
-    public GameObject maskPrefab; 
-    public Sprite maskSprite;   
+    {
+        JumpMask,
+        SpeedMask,
+        SizeMask
+    }
+
+    public MaskType maskType;
+    public GameObject maskPrefab;  
+    public Sprite maskSprite;      
 
     public abstract void ApplyEffect(Player player);
     public abstract void RemoveEffect(Player player);
@@ -22,8 +23,14 @@ public MaskType maskType;
         if (other.CompareTag("Player"))
         {
             Player player = other.GetComponent<Player>();
-            player.EquipMask(this);
-            Destroy(gameObject); 
+            if (player != null)
+            {
+                // Collect and equip the mask
+                player.CollectMask(this);
+                player.EquipMask(this);
+
+                Destroy(gameObject);
+            }
         }
     }
 
@@ -32,15 +39,14 @@ public MaskType maskType;
         if (maskPrefab != null)
         {
             GameObject maskObject = Instantiate(maskPrefab, maskHolder.position, Quaternion.identity);
-            maskObject.transform.SetParent(maskHolder); 
-
+            maskObject.transform.SetParent(maskHolder);
 
             if (maskObject.GetComponent<SpriteRenderer>() != null && maskSprite != null)
             {
                 maskObject.GetComponent<SpriteRenderer>().sprite = maskSprite;
             }
 
-            maskObject.transform.localPosition = new Vector3(0, 0, -0.1f); 
+            maskObject.transform.localPosition = new Vector3(0, 0, -0.1f);
         }
     }
 }
