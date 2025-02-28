@@ -25,11 +25,21 @@ public abstract class Mask : MonoBehaviour
             Player player = other.GetComponent<Player>();
             if (player != null)
             {
-                // Collect and equip the mask
-                player.CollectMask(this);
-                player.EquipMask(this);
+                // Equip the mask based on its type
+                switch (maskType)
+                {
+                    case MaskType.JumpMask:
+                        player.EquipMask(0);
+                        break;
+                    case MaskType.SpeedMask:
+                        player.EquipMask(1);
+                        break;
+                    case MaskType.SizeMask:
+                        player.EquipMask(2);
+                        break;
+                }
 
-                Destroy(gameObject);
+                Destroy(gameObject); // Remove the mask object after pickup
             }
         }
     }
@@ -50,5 +60,3 @@ public abstract class Mask : MonoBehaviour
         }
     }
 }
-
-
