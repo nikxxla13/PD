@@ -6,26 +6,24 @@ public class Projectile : MonoBehaviour
 {
     public int damage = 1;  
     private int hitCount = 0;  
+    private bool isPlayerHit = false; 
 
-    void OnTriggerEnter2D(Collider2D other)
-{
-    if (other.CompareTag("Player"))
+     void OnTriggerEnter2D(Collider2D other)
     {
-        Player player = other.GetComponent<Player>();
-
-        if (player != null)
+        if (other.CompareTag("Player"))  
         {
-            hitCount++;
+            Player player = other.GetComponent<Player>();
 
-            if (hitCount >= 3)
+            if (player != null)
             {
-                player.TakeDamage();
-                hitCount = 0; 
+                player.TakeHit();  
+                Destroy(gameObject);  
             }
-
-            Destroy(gameObject); 
         }
     }
-}
-}
 
+    void OnDestroy()
+    {
+        Debug.Log("Projectile destroyed after hitting player");
+    }
+}

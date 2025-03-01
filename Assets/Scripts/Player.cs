@@ -27,6 +27,7 @@ public class Player : MonoBehaviour
 
     private bool canJump = true; 
     public float jumpCooldown = 4.2f;
+     private int hitCounter = 0;
 
     void Start()
     {
@@ -51,18 +52,30 @@ public class Player : MonoBehaviour
 
         // Mask switching
         CheckForMaskSwitch();
-
      
+    }
+    public void TakeHit()  
+    {
+        hitCounter++;  
+        Debug.Log("Player hit count: " + hitCounter);
+
+        if (hitCounter >= 3)  
+        {
+            TakeDamage();
+            hitCounter = 0; 
+        }
     }
 
      public void TakeDamage()
     {
     currentHealth--;  
+     Debug.Log("Current Health: " + currentHealth); 
 
     if (currentHealth <= 0)
     {
         currentHealth = 0;
         Debug.Log("Player Died!");
+        Die();
     }
 
     UpdateHealthUI();
@@ -72,7 +85,6 @@ public class Player : MonoBehaviour
     {
         Debug.Log("Player Died!");
         gameObject.SetActive(false);
-        // Optionally, reload the scene or show a game over screen
     }
 
     void UpdateHealthUI()
