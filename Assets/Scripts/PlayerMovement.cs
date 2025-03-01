@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using TMPro;
 
 public class Player : MonoBehaviour
 {
@@ -16,11 +18,21 @@ public class Player : MonoBehaviour
 
     private GameObject currentMaskObject; 
     public List<GameObject> maskPrefabs;  // All available masks
-    private int currentMaskIndex = -1; // No mask equipped at start
+
+    private int currentMaskIndex = -1;
+
+    public int maxHealth = 3;
+    private int currentHealth;
+    public TextMeshProUGUI healthText;
+
+    private bool canJump = true; 
+    public float jumpCooldown = 4.2f;
 
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();  
+        currentHealth = maxHealth;
+        UpdateHealthUI();
     }
 
     void Update()
@@ -30,13 +42,45 @@ public class Player : MonoBehaviour
         isGrounded = Physics2D.OverlapCircle(groundCheck.position, 0.2f, groundMask);
         rb.velocity = new Vector2(moveInput * moveSpeed, rb.velocity.y);
 
-        if (isGrounded && Input.GetButtonDown("Jump"))
-        {
-            rb.velocity = new Vector2(rb.velocity.x, jumpForce);
-        }
+         if (isGrounded && Input.GetButtonDown("Jump") && canJump)
+    {
+        rb.velocity = new Vector2(rb.velocity.x, jumpForce);
+        canJump = false; 
+        StartCoroutine(JumpCooldown());
+    }
 
         // Mask switching
         CheckForMaskSwitch();
+
+     
+    }
+
+     public void TakeDamage()
+    {
+    currentHealth--;  
+
+    if (currentHealth <= 0)
+    {
+        currentHealth = 0;
+        Debug.Log("Player Died!");
+    }
+
+    UpdateHealthUI();
+}
+
+    void Die()
+    {
+        Debug.Log("Player Died!");
+        gameObject.SetActive(false);
+        // Optionally, reload the scene or show a game over screen
+    }
+
+    void UpdateHealthUI()
+    {
+        if (healthText != null)
+        {
+            healthText.text = "Health: " + currentHealth;
+        }
     }
 
     void CheckForMaskSwitch()
@@ -85,4 +129,10 @@ public class Player : MonoBehaviour
 
         Debug.Log("Equipped Mask: " + newMaskPrefab.name);
     }
+
+    private IEnumerator JumpCooldown()
+{
+    yield return new WaitForSeconds(jumpCooldown);
+    canJump = true;  
+}
 }
