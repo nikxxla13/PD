@@ -49,3 +49,6 @@ TagManager:
   - name: mask
     uniqueID: 2887841885
     locked: 0
+  - name: background
+    uniqueID: 2917257607
+    locked: 0
