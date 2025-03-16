@@ -5,7 +5,7 @@ using UnityEngine;
 public class JumpMask : Mask
 {
     private float jumpBoost = 1.5f;
-    private float jumpCooldown = 0.5f;  // Cooldown time 
+    private float jumpCooldown = 0.5f; 
     private bool canJump = true; 
 
     public override void ApplyEffect(Player player)
@@ -13,7 +13,6 @@ public class JumpMask : Mask
         player.jumpForce *= jumpBoost;
         player.GetComponent<SpriteRenderer>().color = Color.blue; 
 
-        // Start the cooldown 
         player.StartCoroutine(JumpCooldown(player));
     }
 
