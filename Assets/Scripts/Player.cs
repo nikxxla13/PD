@@ -27,7 +27,7 @@ public class Player : MonoBehaviour
 
     private bool canJump = true; 
     public float jumpCooldown = 4.2f;
-     private int hitCounter = 0;
+    private int hitCounter = 0;
 
     void Start()
     {
@@ -43,17 +43,18 @@ public class Player : MonoBehaviour
         isGrounded = Physics2D.OverlapCircle(groundCheck.position, 0.2f, groundMask);
         rb.velocity = new Vector2(moveInput * moveSpeed, rb.velocity.y);
 
-         if (isGrounded && Input.GetButtonDown("Jump") && canJump)
-    {
-        rb.velocity = new Vector2(rb.velocity.x, jumpForce);
-        canJump = false; 
-        StartCoroutine(JumpCooldown());
-    }
+        // Jump logic (only if grounded and jump cooldown is ready)
+        if (isGrounded && Input.GetButtonDown("Jump") && canJump)
+        {
+            rb.velocity = new Vector2(rb.velocity.x, jumpForce);
+            canJump = false; 
+            StartCoroutine(JumpCooldown());
+        }
 
         // Mask switching
         CheckForMaskSwitch();
-     
     }
+
     public void TakeHit()  
     {
         hitCounter++;  
@@ -66,20 +67,20 @@ public class Player : MonoBehaviour
         }
     }
 
-     public void TakeDamage()
+    public void TakeDamage()
     {
-    currentHealth--;  
-     Debug.Log("Current Health: " + currentHealth); 
+        currentHealth--;  
+        Debug.Log("Current Health: " + currentHealth); 
 
-    if (currentHealth <= 0)
-    {
-        currentHealth = 0;
-        Debug.Log("Player Died!");
-        Die();
+        if (currentHealth <= 0)
+        {
+            currentHealth = 0;
+            Debug.Log("Player Died!");
+            Die();
+        }
+
+        UpdateHealthUI();
     }
-
-    UpdateHealthUI();
-}
 
     void Die()
     {
@@ -143,8 +144,8 @@ public class Player : MonoBehaviour
     }
 
     private IEnumerator JumpCooldown()
-{
-    yield return new WaitForSeconds(jumpCooldown);
-    canJump = true;  
-}
+    {
+        yield return new WaitForSeconds(jumpCooldown);
+        canJump = true;  
+    }
 }
