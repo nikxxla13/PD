@@ -6,11 +6,14 @@ using TMPro;
 
 public class Player : MonoBehaviour
 {
+    public Animator anim;
+    public Transform spriteTransform; // NEW: for smooth flipping
+
     public float moveSpeed = 5f;  
     public float jumpForce = 10f; 
     private float moveInput;     
     private bool isGrounded;      
-    private Rigidbody2D rb;       
+    private Rigidbody2D rb;    
 
     public Transform groundCheck; 
     public LayerMask groundMask;  
@@ -26,7 +29,7 @@ public class Player : MonoBehaviour
     public TextMeshProUGUI healthText;
 
     private bool canJump = true; 
-    public float jumpCooldown = 4.2f;
+    public float jumpCooldown = 1.0f; // Adjusted to 1 second
     private int hitCounter = 0;
 
     void Start()
@@ -38,20 +41,38 @@ public class Player : MonoBehaviour
 
     void Update()
     {
-        // Movement and jumping logic
         moveInput = Input.GetAxis("Horizontal");
         isGrounded = Physics2D.OverlapCircle(groundCheck.position, 0.2f, groundMask);
         rb.velocity = new Vector2(moveInput * moveSpeed, rb.velocity.y);
 
-        // Jump logic (only if grounded and jump cooldown is ready)
+        // SMOOTH FLIP (using Lerp)
+        if (moveInput > 0)
+        {
+            // Smooth transition from left to right
+            spriteTransform.localScale = Vector3.Lerp(spriteTransform.localScale, new Vector3(1f, 1f, 1f), 0.1f);
+        }
+        else if (moveInput < 0)
+        {
+            // Smooth transition from right to left
+            spriteTransform.localScale = Vector3.Lerp(spriteTransform.localScale, new Vector3(-1f, 1f, 1f), 0.1f);
+        }
+
+        // JUMPING
         if (isGrounded && Input.GetButtonDown("Jump") && canJump)
         {
             rb.velocity = new Vector2(rb.velocity.x, jumpForce);
             canJump = false; 
-            StartCoroutine(JumpCooldown());
+            StartCoroutine(JumpCooldown()); // Start the cooldown when jumping
         }
 
-        // Mask switching
+        // ANIMATOR UPDATES
+        if (anim != null)
+        {
+            anim.SetBool("isRunning", Mathf.Abs(moveInput) > 0.1f);
+            anim.SetBool("isJumping", !isGrounded); // Jumping condition based on isGrounded
+        }
+
+        // MASK SWITCHING
         CheckForMaskSwitch();
     }
 
@@ -124,12 +145,10 @@ public class Player : MonoBehaviour
                 previousMask.RemoveEffect(this);
             }
 
-            Destroy(currentMaskObject); // Remove previous mask
+            Destroy(currentMaskObject);
         }
 
         GameObject newMaskPrefab = maskPrefabs[index];
-
-        // Instantiate the new mask
         GameObject newMaskObject = Instantiate(newMaskPrefab, maskHolder.position, Quaternion.identity);
         newMaskObject.transform.SetParent(maskHolder);
         currentMaskObject = newMaskObject;
@@ -145,7 +164,7 @@ public class Player : MonoBehaviour
 
     private IEnumerator JumpCooldown()
     {
-        yield return new WaitForSeconds(jumpCooldown);
-        canJump = true;  
+        yield return new WaitForSeconds(jumpCooldown); // Wait for the cooldown
+        canJump = true;  // Re-enable jumping after the cooldown
     }
 }
