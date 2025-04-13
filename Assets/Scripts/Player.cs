@@ -1,42 +1,44 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
+using UnityEngine.UI;  // Needed for UI Image
 using TMPro;
 
 public class Player : MonoBehaviour
 {
     public Animator anim;
-    public Transform spriteTransform; // NEW: for smooth flipping
+    public Transform spriteTransform;
 
-    public float moveSpeed = 5f;  
-    public float jumpForce = 10f; 
-    private float moveInput;     
-    private bool isGrounded;      
-    private Rigidbody2D rb;    
+    public float moveSpeed = 5f;
+    public float jumpForce = 10f;
+    private float moveInput;
+    private bool isGrounded;
+    private Rigidbody2D rb;
 
-    public Transform groundCheck; 
-    public LayerMask groundMask;  
+    public Transform groundCheck;
+    public LayerMask groundMask;
     public Transform maskHolder;
 
-    private GameObject currentMaskObject; 
-    public List<GameObject> maskPrefabs;  // All available masks
+    private GameObject currentMaskObject;
+    public List<GameObject> maskPrefabs;
 
     private int currentMaskIndex = -1;
 
-    public int maxHealth = 3;
-    private int currentHealth;
-    public TextMeshProUGUI healthText;
+    public int maxHealth = 3; // Maximum health (adjustable in Inspector)
+    [HideInInspector] public int currentHealth; // Current health, starts equal to maxHealth
+    public List<Image> heartImages;  // List to hold the heart images
+    public Sprite fullHeart;         // Sprite for a full heart
+    public Sprite emptyHeart;        // Sprite for an empty heart
 
-    private bool canJump = true; 
-    public float jumpCooldown = 1.0f; // Adjusted to 1 second
+    private bool canJump = true;
+    public float jumpCooldown = 1.0f;
     private int hitCounter = 0;
 
     void Start()
     {
-        rb = GetComponent<Rigidbody2D>();  
-        currentHealth = maxHealth;
-        UpdateHealthUI();
+        rb = GetComponent<Rigidbody2D>();
+        currentHealth = maxHealth;  // Initialize current health
+        UpdateHealthUI();  // Update the health UI (hearts)
     }
 
     void Update()
@@ -45,15 +47,13 @@ public class Player : MonoBehaviour
         isGrounded = Physics2D.OverlapCircle(groundCheck.position, 0.2f, groundMask);
         rb.velocity = new Vector2(moveInput * moveSpeed, rb.velocity.y);
 
-        // SMOOTH FLIP (using Lerp)
+        // SMOOTH FLIP
         if (moveInput > 0)
         {
-            // Smooth transition from left to right
             spriteTransform.localScale = Vector3.Lerp(spriteTransform.localScale, new Vector3(1f, 1f, 1f), 0.1f);
         }
         else if (moveInput < 0)
         {
-            // Smooth transition from right to left
             spriteTransform.localScale = Vector3.Lerp(spriteTransform.localScale, new Vector3(-1f, 1f, 1f), 0.1f);
         }
 
@@ -61,37 +61,37 @@ public class Player : MonoBehaviour
         if (isGrounded && Input.GetButtonDown("Jump") && canJump)
         {
             rb.velocity = new Vector2(rb.velocity.x, jumpForce);
-            canJump = false; 
-            StartCoroutine(JumpCooldown()); // Start the cooldown when jumping
+            canJump = false;
+            StartCoroutine(JumpCooldown());
         }
 
         // ANIMATOR UPDATES
         if (anim != null)
         {
             anim.SetBool("isRunning", Mathf.Abs(moveInput) > 0.1f);
-            anim.SetBool("isJumping", !isGrounded); // Jumping condition based on isGrounded
+            anim.SetBool("isJumping", !isGrounded);
         }
 
         // MASK SWITCHING
         CheckForMaskSwitch();
     }
 
-    public void TakeHit()  
+    public void TakeHit()
     {
-        hitCounter++;  
+        hitCounter++;
         Debug.Log("Player hit count: " + hitCounter);
 
-        if (hitCounter >= 3)  
+        if (hitCounter >= 3)
         {
             TakeDamage();
-            hitCounter = 0; 
+            hitCounter = 0;
         }
     }
 
     public void TakeDamage()
     {
-        currentHealth--;  
-        Debug.Log("Current Health: " + currentHealth); 
+        currentHealth--;
+        Debug.Log("Current Health: " + currentHealth);
 
         if (currentHealth <= 0)
         {
@@ -100,7 +100,7 @@ public class Player : MonoBehaviour
             Die();
         }
 
-        UpdateHealthUI();
+        UpdateHealthUI();  // Update heart UI
     }
 
     void Die()
@@ -109,13 +109,22 @@ public class Player : MonoBehaviour
         gameObject.SetActive(false);
     }
 
+    // Update the heart images based on current health
     void UpdateHealthUI()
     {
-        if (healthText != null)
+        for (int i = 0; i < heartImages.Count; i++)
         {
-            healthText.text = "Health: " + currentHealth;
+            if (i < currentHealth)
+            {
+                heartImages[i].gameObject.SetActive(true);  // Enable the heart image
+            }
+            else
+            {
+                heartImages[i].gameObject.SetActive(false);  // Disable the heart image
+            }
         }
     }
+
 
     void CheckForMaskSwitch()
     {
@@ -164,7 +173,30 @@ public class Player : MonoBehaviour
 
     private IEnumerator JumpCooldown()
     {
-        yield return new WaitForSeconds(jumpCooldown); // Wait for the cooldown
-        canJump = true;  // Re-enable jumping after the cooldown
+        yield return new WaitForSeconds(jumpCooldown);
+        canJump = true;
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag("Enemy"))
+        {
+            foreach (ContactPoint2D contact in collision.contacts)
+            {
+                if (contact.normal.y > 0.5f)
+                {
+                    EnemyDeathController enemy = collision.gameObject.GetComponent<EnemyDeathController>();
+                    if (enemy != null)
+                    {
+                        enemy.Die();
+                        rb.velocity = new Vector2(rb.velocity.x, 8f); // Bounce!
+                    }
+                }
+                else
+                {
+                    TakeHit();
+                }
+            }
+        }
     }
 }
