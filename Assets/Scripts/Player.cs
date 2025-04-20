@@ -81,7 +81,7 @@ public class Player : MonoBehaviour
         hitCounter++;
         Debug.Log("Player hit count: " + hitCounter);
 
-        if (hitCounter >= 3)
+        if (hitCounter >= 1)
         {
             TakeDamage();
             hitCounter = 0;
