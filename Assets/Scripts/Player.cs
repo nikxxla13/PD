@@ -143,33 +143,60 @@ public class Player : MonoBehaviour
     }
 
     public void EquipMask(int index)
+{
+    if (index < 0 || index >= maskPrefabs.Count) return;
+
+    if (currentMaskObject != null)
     {
-        if (index < 0 || index >= maskPrefabs.Count) return;
-
-        if (currentMaskObject != null)
+        Mask previousMask = currentMaskObject.GetComponent<Mask>();
+        if (previousMask != null)
         {
-            Mask previousMask = currentMaskObject.GetComponent<Mask>();
-            if (previousMask != null)
-            {
-                previousMask.RemoveEffect(this);
-            }
-
-            Destroy(currentMaskObject);
+            previousMask.RemoveEffect(this);
         }
 
-        GameObject newMaskPrefab = maskPrefabs[index];
-        GameObject newMaskObject = Instantiate(newMaskPrefab, maskHolder.position, Quaternion.identity);
-        newMaskObject.transform.SetParent(maskHolder);
-        currentMaskObject = newMaskObject;
-
-        Mask newMask = newMaskObject.GetComponent<Mask>();
-        if (newMask != null)
-        {
-            newMask.ApplyEffect(this);
-        }
-
-        Debug.Log("Equipped Mask: " + newMaskPrefab.name);
+        Destroy(currentMaskObject);
     }
+
+    GameObject newMaskPrefab = maskPrefabs[index];
+    GameObject newMaskObject = Instantiate(newMaskPrefab, maskHolder.position, Quaternion.identity);
+    newMaskObject.transform.SetParent(maskHolder);
+    currentMaskObject = newMaskObject;
+
+    Mask newMask = newMaskObject.GetComponent<Mask>();
+    if (newMask != null)
+    {
+        newMask.ApplyEffect(this);
+    }
+
+    currentMaskIndex = index; 
+    Debug.Log("Equipped Mask: " + newMaskPrefab.name);
+}
+
+
+    void ToggleMask(int index)
+{
+    if (currentMaskObject != null && currentMaskIndex == index)
+    {
+        // Unequip mask if it's already equipped
+        Mask currentMask = currentMaskObject.GetComponent<Mask>();
+        if (currentMask != null)
+        {
+            currentMask.RemoveEffect(this); // Reset stats or visuals
+        }
+
+        Destroy(currentMaskObject);
+        currentMaskObject = null;
+        currentMaskIndex = -1;
+
+        Debug.Log("Mask unequipped – back to original form!");
+    }
+    else
+    {
+        EquipMask(index);
+        currentMaskIndex = index; // Track current mask
+    }
+}
+
 
     private IEnumerator JumpCooldown()
     {
