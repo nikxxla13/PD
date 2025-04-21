@@ -72,10 +72,9 @@ public class PauseMenu : MonoBehaviour
 
     void RestartLevel()
     {
-        Time.timeScale = 1f; // Ensure the time is running when restarting
-        player.position = startingPosition.position; // Teleport the player to the starting position
-        pauseMenuCanvas.SetActive(false); // Hide the pause menu after restarting
-        isPaused = false; // Set isPaused to false, since the game is no longer paused
+        Time.timeScale = 1f; // Ensure time runs normally
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name); // Reload the current scene
     }
+
 
 }

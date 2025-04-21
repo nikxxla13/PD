@@ -16,4 +16,18 @@ public class MovingPlatform : MonoBehaviour {
         float movement = Mathf.PingPong(Time.time * speed, distance * 2) - distance;
         transform.position = new Vector3(startPos.x + movement, startPos.y, startPos.z);
     }
+
+    private void OnCollisionEnter2D(Collision2D collision) {
+        if (collision.gameObject.CompareTag("Player")) {
+            // Stick player to platform
+            collision.transform.SetParent(transform);
+        }
+    }
+
+    private void OnCollisionExit2D(Collision2D collision) {
+        if (collision.gameObject.CompareTag("Player")) {
+            // Unstick player from platform
+            collision.transform.SetParent(null);
+        }
+    }
 }
