@@ -29,15 +29,15 @@ public class PauseMenu : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-            if (settingsPanel.activeSelf) // If the settings panel is active, return to pause menu
+            if (settingsPanel.activeSelf)
             {
                 CloseSettings();
             }
-            else if (isPaused) // If the pause menu is open, resume the game
+            else if (isPaused)
             {
                 ResumeGame();
             }
-            else // Otherwise, pause the game
+            else
             {
                 PauseGame();
             }
@@ -47,34 +47,40 @@ public class PauseMenu : MonoBehaviour
     void PauseGame()
     {
         pauseMenuCanvas.SetActive(true);
-        Time.timeScale = 0f; // Freeze the game
+        Time.timeScale = 0f;
         isPaused = true;
     }
 
     void ResumeGame()
     {
         pauseMenuCanvas.SetActive(false);
-        Time.timeScale = 1f; // Unfreeze the game
+        Time.timeScale = 1f;
         isPaused = false;
     }
 
     void OpenSettings()
     {
-        settingsPanel.SetActive(true); // Show the settings panel
-        pauseMenuCanvas.SetActive(false); // Hide the pause menu
+        settingsPanel.SetActive(true);
+        pauseMenuCanvas.SetActive(false);
     }
 
     void CloseSettings()
     {
-        settingsPanel.SetActive(false); // Hide the settings panel
-        pauseMenuCanvas.SetActive(true); // Show the pause menu again
+        settingsPanel.SetActive(false);
+        pauseMenuCanvas.SetActive(true);
     }
 
     void RestartLevel()
     {
-        Time.timeScale = 1f; // Ensure time runs normally
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name); // Reload the current scene
+        Time.timeScale = 1f;
+
+        // ✅ Reset the score to the value when this level started
+        if (ScoreManager.instance != null)
+        {
+            ScoreManager.instance.ResetToSceneStartScore();
+        }
+
+        // Reload the current scene
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
-
-
 }
