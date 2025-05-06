@@ -1,32 +1,27 @@
 using UnityEngine;
 
+using UnityEngine;
+
 public class Collectible : MonoBehaviour
 {
     public GameObject floatingTextPrefab; // Assign in inspector
+    public Canvas floatingTextCanvas;     // Assign your screen-space canvas
 
     void OnTriggerEnter2D(Collider2D other)
     {
         if (other.CompareTag("Player"))
         {
-            // Increase the score
             ScoreManager.instance.AddPoint();
 
-            // Debug log before trying to spawn text
-            Debug.Log("Player collected a coin! Attempting to spawn floating text...");
+            if (floatingTextPrefab != null && floatingTextCanvas != null)
+            {
+                Vector3 worldPos = transform.position + new Vector3(0, 1f, 0); // above coin
+                Vector3 screenPos = Camera.main.WorldToScreenPoint(worldPos);
 
-            // Spawn floating text above player
-            if (floatingTextPrefab != null)
-            {
-                Vector3 spawnPos = new Vector3(0, 0, 0); // Center of the world
-                GameObject textInstance = Instantiate(floatingTextPrefab, spawnPos, Quaternion.identity, GameObject.Find("FloatingTextCanvas").transform);
-                Debug.Log("Floating text spawned at position: " + textInstance.transform.position);
-            }
-            else
-            {
-                Debug.LogWarning("No floating text prefab assigned!");
+                GameObject textInstance = Instantiate(floatingTextPrefab, floatingTextCanvas.transform);
+                textInstance.GetComponent<RectTransform>().position = screenPos;
             }
 
-            // Destroy the collectible
             Destroy(gameObject);
         }
     }
