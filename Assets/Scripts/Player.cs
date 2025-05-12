@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;  // Needed for UI Image
+using UnityEngine.UI;
 using TMPro;
 
 public class Player : MonoBehaviour
@@ -24,11 +24,11 @@ public class Player : MonoBehaviour
 
     private int currentMaskIndex = -1;
 
-    public int maxHealth = 3; // Maximum health (adjustable in Inspector)
-    [HideInInspector] public int currentHealth; // Current health, starts equal to maxHealth
-    public List<Image> heartImages;  // List to hold the heart images
-    public Sprite fullHeart;         // Sprite for a full heart
-    public Sprite emptyHeart;        // Sprite for an empty heart
+    public int maxHealth = 3;
+    [HideInInspector] public int currentHealth;
+    public List<Image> heartImages;
+    public Sprite fullHeart;
+    public Sprite emptyHeart;
 
     private bool canJump = true;
     public float jumpCooldown = 1.0f;
@@ -36,15 +36,17 @@ public class Player : MonoBehaviour
 
     void Start()
     {
+        Debug.Log("Animator assigned: " + (anim != null));
         rb = GetComponent<Rigidbody2D>();
-        currentHealth = maxHealth;  // Initialize current health
-        UpdateHealthUI();  // Update the health UI (hearts)
+        anim = GetComponentInChildren<Animator>();  // ✅ Correctly grabs the child Animator
+        currentHealth = maxHealth;
+        UpdateHealthUI();
     }
 
     void Update()
     {
         moveInput = Input.GetAxis("Horizontal");
-        isGrounded = Physics2D.OverlapCircle(groundCheck.position, 0.2f, groundMask);
+        isGrounded = Physics2D.OverlapCircle(groundCheck.position, 0.1f, groundMask);
         rb.velocity = new Vector2(moveInput * moveSpeed, rb.velocity.y);
 
         // SMOOTH FLIP
@@ -70,6 +72,8 @@ public class Player : MonoBehaviour
         {
             anim.SetBool("isRunning", Mathf.Abs(moveInput) > 0.1f);
             anim.SetBool("isJumping", !isGrounded);
+            Debug.Log("isGrounded: " + isGrounded);
+
         }
 
         // MASK SWITCHING
@@ -100,7 +104,7 @@ public class Player : MonoBehaviour
             Die();
         }
 
-        UpdateHealthUI();  // Update heart UI
+        UpdateHealthUI();
     }
 
     void Die()
@@ -109,22 +113,20 @@ public class Player : MonoBehaviour
         gameObject.SetActive(false);
     }
 
-    // Update the heart images based on current health
     void UpdateHealthUI()
     {
         for (int i = 0; i < heartImages.Count; i++)
         {
             if (i < currentHealth)
             {
-                heartImages[i].gameObject.SetActive(true);  // Enable the heart image
+                heartImages[i].gameObject.SetActive(true);
             }
             else
             {
-                heartImages[i].gameObject.SetActive(false);  // Disable the heart image
+                heartImages[i].gameObject.SetActive(false);
             }
         }
     }
-
 
     void CheckForMaskSwitch()
     {
@@ -143,60 +145,57 @@ public class Player : MonoBehaviour
     }
 
     public void EquipMask(int index)
-{
-    if (index < 0 || index >= maskPrefabs.Count) return;
-
-    if (currentMaskObject != null)
     {
-        Mask previousMask = currentMaskObject.GetComponent<Mask>();
-        if (previousMask != null)
+        if (index < 0 || index >= maskPrefabs.Count) return;
+
+        if (currentMaskObject != null)
         {
-            previousMask.RemoveEffect(this);
+            Mask previousMask = currentMaskObject.GetComponent<Mask>();
+            if (previousMask != null)
+            {
+                previousMask.RemoveEffect(this);
+            }
+
+            Destroy(currentMaskObject);
         }
 
-        Destroy(currentMaskObject);
+        GameObject newMaskPrefab = maskPrefabs[index];
+        GameObject newMaskObject = Instantiate(newMaskPrefab, maskHolder.position, Quaternion.identity);
+        newMaskObject.transform.SetParent(maskHolder);
+        currentMaskObject = newMaskObject;
+
+        Mask newMask = newMaskObject.GetComponent<Mask>();
+        if (newMask != null)
+        {
+            newMask.ApplyEffect(this);
+        }
+
+        currentMaskIndex = index;
+        Debug.Log("Equipped Mask: " + newMaskPrefab.name);
     }
-
-    GameObject newMaskPrefab = maskPrefabs[index];
-    GameObject newMaskObject = Instantiate(newMaskPrefab, maskHolder.position, Quaternion.identity);
-    newMaskObject.transform.SetParent(maskHolder);
-    currentMaskObject = newMaskObject;
-
-    Mask newMask = newMaskObject.GetComponent<Mask>();
-    if (newMask != null)
-    {
-        newMask.ApplyEffect(this);
-    }
-
-    currentMaskIndex = index; 
-    Debug.Log("Equipped Mask: " + newMaskPrefab.name);
-}
-
 
     void ToggleMask(int index)
-{
-    if (currentMaskObject != null && currentMaskIndex == index)
     {
-        // Unequip mask if it's already equipped
-        Mask currentMask = currentMaskObject.GetComponent<Mask>();
-        if (currentMask != null)
+        if (currentMaskObject != null && currentMaskIndex == index)
         {
-            currentMask.RemoveEffect(this); // Reset stats or visuals
+            Mask currentMask = currentMaskObject.GetComponent<Mask>();
+            if (currentMask != null)
+            {
+                currentMask.RemoveEffect(this);
+            }
+
+            Destroy(currentMaskObject);
+            currentMaskObject = null;
+            currentMaskIndex = -1;
+
+            Debug.Log("Mask unequipped – back to original form!");
         }
-
-        Destroy(currentMaskObject);
-        currentMaskObject = null;
-        currentMaskIndex = -1;
-
-        Debug.Log("Mask unequipped – back to original form!");
+        else
+        {
+            EquipMask(index);
+            currentMaskIndex = index;
+        }
     }
-    else
-    {
-        EquipMask(index);
-        currentMaskIndex = index; // Track current mask
-    }
-}
-
 
     private IEnumerator JumpCooldown()
     {
@@ -216,7 +215,7 @@ public class Player : MonoBehaviour
                     if (enemy != null)
                     {
                         enemy.Die();
-                        rb.velocity = new Vector2(rb.velocity.x, 8f); // Bounce!
+                        rb.velocity = new Vector2(rb.velocity.x, 8f);
                     }
                 }
                 else
