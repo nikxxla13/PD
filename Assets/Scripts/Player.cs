@@ -34,20 +34,40 @@ public class Player : MonoBehaviour
     public float jumpCooldown = 1.0f;
     private int hitCounter = 0;
 
+    // === Coyote Time Variables ===
+    private float coyoteTime = 0.15f;
+    private float coyoteTimeCounter;
+
     void Start()
     {
         Debug.Log("Animator assigned: " + (anim != null));
         rb = GetComponent<Rigidbody2D>();
-        anim = GetComponentInChildren<Animator>();  // ✅ Correctly grabs the child Animator
+        anim = GetComponentInChildren<Animator>();
         currentHealth = maxHealth;
         UpdateHealthUI();
+
+        // 🏁 Set player position from latest checkpoint (or start point)
+        if (PlayerRespawnManager.instance != null)
+        {
+            transform.position = PlayerRespawnManager.instance.GetCheckpoint();
+        }
     }
 
     void Update()
     {
         moveInput = Input.GetAxis("Horizontal");
-        isGrounded = Physics2D.OverlapCircle(groundCheck.position, 0.1f, groundMask);
+        isGrounded = Physics2D.OverlapCircle(groundCheck.position, 0.2f, groundMask);
         rb.velocity = new Vector2(moveInput * moveSpeed, rb.velocity.y);
+
+        // COYOTE TIME UPDATE
+        if (isGrounded)
+        {
+            coyoteTimeCounter = coyoteTime;
+        }
+        else
+        {
+            coyoteTimeCounter -= Time.deltaTime;
+        }
 
         // SMOOTH FLIP
         if (moveInput > 0)
@@ -59,11 +79,12 @@ public class Player : MonoBehaviour
             spriteTransform.localScale = Vector3.Lerp(spriteTransform.localScale, new Vector3(-1f, 1f, 1f), 0.1f);
         }
 
-        // JUMPING
-        if (isGrounded && Input.GetButtonDown("Jump") && canJump)
+        // JUMPING (WITH COYOTE TIME)
+        if (coyoteTimeCounter > 0f && Input.GetButtonDown("Jump") && canJump)
         {
             rb.velocity = new Vector2(rb.velocity.x, jumpForce);
             canJump = false;
+            coyoteTimeCounter = 0f; // Prevent multiple jumps in grace window
             StartCoroutine(JumpCooldown());
         }
 
@@ -72,8 +93,7 @@ public class Player : MonoBehaviour
         {
             anim.SetBool("isRunning", Mathf.Abs(moveInput) > 0.1f);
             anim.SetBool("isJumping", !isGrounded);
-            Debug.Log("isGrounded: " + isGrounded);
-
+            
         }
 
         // MASK SWITCHING

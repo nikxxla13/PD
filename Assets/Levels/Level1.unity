@@ -438,6 +438,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6bafebffcba00084f8b89feea17f2891, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  collectibleID: 
   floatingTextPrefab: {fileID: 505641377895712007, guid: 222fc73895b282443bd0167095307671, type: 3}
   floatingTextCanvas: {fileID: 317691714}
 --- !u!61 &19260870
@@ -1096,7 +1097,7 @@ Transform:
   m_GameObject: {fileID: 73351434}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 114.54, y: 8.63, z: 0}
+  m_LocalPosition: {x: 114.56, y: 8.6, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2779,6 +2780,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6bafebffcba00084f8b89feea17f2891, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  collectibleID: 
   floatingTextPrefab: {fileID: 505641377895712007, guid: 222fc73895b282443bd0167095307671, type: 3}
   floatingTextCanvas: {fileID: 317691714}
 --- !u!61 &192158161
@@ -4259,6 +4261,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6bafebffcba00084f8b89feea17f2891, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  collectibleID: 
   floatingTextPrefab: {fileID: 505641377895712007, guid: 222fc73895b282443bd0167095307671, type: 3}
   floatingTextCanvas: {fileID: 317691714}
 --- !u!61 &270368005
@@ -5276,6 +5279,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6bafebffcba00084f8b89feea17f2891, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  collectibleID: 
   floatingTextPrefab: {fileID: 505641377895712007, guid: 222fc73895b282443bd0167095307671, type: 3}
   floatingTextCanvas: {fileID: 317691714}
 --- !u!61 &339703132
@@ -6110,6 +6114,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6bafebffcba00084f8b89feea17f2891, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  collectibleID: 
   floatingTextPrefab: {fileID: 505641377895712007, guid: 222fc73895b282443bd0167095307671, type: 3}
   floatingTextCanvas: {fileID: 317691714}
 --- !u!61 &387027830
@@ -8374,6 +8379,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6bafebffcba00084f8b89feea17f2891, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  collectibleID: 
   floatingTextPrefab: {fileID: 505641377895712007, guid: 222fc73895b282443bd0167095307671, type: 3}
   floatingTextCanvas: {fileID: 317691714}
 --- !u!61 &501444230
@@ -8824,7 +8830,7 @@ Transform:
   m_GameObject: {fileID: 519420028}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 10.066072, y: 2.8488965, z: -10}
+  m_LocalPosition: {x: 7.0032263, y: 2.848504, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -11577,6 +11583,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6bafebffcba00084f8b89feea17f2891, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  collectibleID: 
   floatingTextPrefab: {fileID: 505641377895712007, guid: 222fc73895b282443bd0167095307671, type: 3}
   floatingTextCanvas: {fileID: 317691714}
 --- !u!61 &722258955
@@ -11875,6 +11882,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6bafebffcba00084f8b89feea17f2891, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  collectibleID: 
   floatingTextPrefab: {fileID: 505641377895712007, guid: 222fc73895b282443bd0167095307671, type: 3}
   floatingTextCanvas: {fileID: 317691714}
 --- !u!61 &728760401
@@ -12255,6 +12263,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6bafebffcba00084f8b89feea17f2891, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  collectibleID: 
   floatingTextPrefab: {fileID: 505641377895712007, guid: 222fc73895b282443bd0167095307671, type: 3}
   floatingTextCanvas: {fileID: 317691714}
 --- !u!61 &748207771
@@ -12679,6 +12688,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6bafebffcba00084f8b89feea17f2891, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  collectibleID: 
   floatingTextPrefab: {fileID: 505641377895712007, guid: 222fc73895b282443bd0167095307671, type: 3}
   floatingTextCanvas: {fileID: 317691714}
 --- !u!61 &759161148
@@ -14636,6 +14646,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6bafebffcba00084f8b89feea17f2891, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  collectibleID: 
   floatingTextPrefab: {fileID: 505641377895712007, guid: 222fc73895b282443bd0167095307671, type: 3}
   floatingTextCanvas: {fileID: 317691714}
 --- !u!61 &864435742
@@ -14949,6 +14960,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6bafebffcba00084f8b89feea17f2891, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  collectibleID: 
   floatingTextPrefab: {fileID: 505641377895712007, guid: 222fc73895b282443bd0167095307671, type: 3}
   floatingTextCanvas: {fileID: 317691714}
 --- !u!61 &878345226
@@ -16819,6 +16831,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6bafebffcba00084f8b89feea17f2891, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  collectibleID: 
   floatingTextPrefab: {fileID: 505641377895712007, guid: 222fc73895b282443bd0167095307671, type: 3}
   floatingTextCanvas: {fileID: 317691714}
 --- !u!61 &1004281741
@@ -17000,6 +17013,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6bafebffcba00084f8b89feea17f2891, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  collectibleID: 
   floatingTextPrefab: {fileID: 505641377895712007, guid: 222fc73895b282443bd0167095307671, type: 3}
   floatingTextCanvas: {fileID: 317691714}
 --- !u!61 &1013915528
@@ -17338,7 +17352,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1041697164
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -18775,6 +18789,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6bafebffcba00084f8b89feea17f2891, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  collectibleID: 
   floatingTextPrefab: {fileID: 505641377895712007, guid: 222fc73895b282443bd0167095307671, type: 3}
   floatingTextCanvas: {fileID: 317691714}
 --- !u!61 &1132255189
@@ -18920,6 +18935,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6bafebffcba00084f8b89feea17f2891, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  collectibleID: 
   floatingTextPrefab: {fileID: 505641377895712007, guid: 222fc73895b282443bd0167095307671, type: 3}
   floatingTextCanvas: {fileID: 317691714}
 --- !u!61 &1132609439
@@ -19149,6 +19165,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6bafebffcba00084f8b89feea17f2891, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  collectibleID: 
   floatingTextPrefab: {fileID: 505641377895712007, guid: 222fc73895b282443bd0167095307671, type: 3}
   floatingTextCanvas: {fileID: 317691714}
 --- !u!61 &1145560055
@@ -22384,6 +22401,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6bafebffcba00084f8b89feea17f2891, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  collectibleID: 
   floatingTextPrefab: {fileID: 505641377895712007, guid: 222fc73895b282443bd0167095307671, type: 3}
   floatingTextCanvas: {fileID: 317691714}
 --- !u!61 &1352128653
@@ -23332,6 +23350,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6bafebffcba00084f8b89feea17f2891, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  collectibleID: 
   floatingTextPrefab: {fileID: 505641377895712007, guid: 222fc73895b282443bd0167095307671, type: 3}
   floatingTextCanvas: {fileID: 317691714}
 --- !u!61 &1410955436
@@ -23592,6 +23611,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6bafebffcba00084f8b89feea17f2891, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  collectibleID: 
   floatingTextPrefab: {fileID: 505641377895712007, guid: 222fc73895b282443bd0167095307671, type: 3}
   floatingTextCanvas: {fileID: 317691714}
 --- !u!61 &1441650593
@@ -24684,6 +24704,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6bafebffcba00084f8b89feea17f2891, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  collectibleID: 
   floatingTextPrefab: {fileID: 505641377895712007, guid: 222fc73895b282443bd0167095307671, type: 3}
   floatingTextCanvas: {fileID: 317691714}
 --- !u!61 &1511857367
@@ -24894,6 +24915,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6bafebffcba00084f8b89feea17f2891, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  collectibleID: 
   floatingTextPrefab: {fileID: 505641377895712007, guid: 222fc73895b282443bd0167095307671, type: 3}
   floatingTextCanvas: {fileID: 317691714}
 --- !u!61 &1522245860
@@ -25559,6 +25581,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6bafebffcba00084f8b89feea17f2891, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  collectibleID: 
   floatingTextPrefab: {fileID: 505641377895712007, guid: 222fc73895b282443bd0167095307671, type: 3}
   floatingTextCanvas: {fileID: 317691714}
 --- !u!61 &1547815800
@@ -26608,7 +26631,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -835, y: 432.99997}
+  m_AnchoredPosition: {x: -835, y: 542.99994}
   m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1627288790
@@ -27783,6 +27806,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6bafebffcba00084f8b89feea17f2891, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  collectibleID: 
   floatingTextPrefab: {fileID: 505641377895712007, guid: 222fc73895b282443bd0167095307671, type: 3}
   floatingTextCanvas: {fileID: 317691714}
 --- !u!61 &1724917061
@@ -31244,6 +31268,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6bafebffcba00084f8b89feea17f2891, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  collectibleID: 
   floatingTextPrefab: {fileID: 505641377895712007, guid: 222fc73895b282443bd0167095307671, type: 3}
   floatingTextCanvas: {fileID: 317691714}
 --- !u!61 &1927727997
@@ -32228,6 +32253,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6bafebffcba00084f8b89feea17f2891, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  collectibleID: 
   floatingTextPrefab: {fileID: 505641377895712007, guid: 222fc73895b282443bd0167095307671, type: 3}
   floatingTextCanvas: {fileID: 317691714}
 --- !u!61 &1968056468
@@ -33004,7 +33030,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -688, y: 383}
+  m_AnchoredPosition: {x: -688, y: 493}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!4 &2011054537 stripped
@@ -33194,6 +33220,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6bafebffcba00084f8b89feea17f2891, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  collectibleID: 
   floatingTextPrefab: {fileID: 505641377895712007, guid: 222fc73895b282443bd0167095307671, type: 3}
   floatingTextCanvas: {fileID: 317691714}
 --- !u!61 &2014756460
@@ -33749,6 +33776,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6bafebffcba00084f8b89feea17f2891, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  collectibleID: 
   floatingTextPrefab: {fileID: 505641377895712007, guid: 222fc73895b282443bd0167095307671, type: 3}
   floatingTextCanvas: {fileID: 317691714}
 --- !u!61 &2033198255
@@ -34506,6 +34534,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6bafebffcba00084f8b89feea17f2891, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  collectibleID: 
   floatingTextPrefab: {fileID: 505641377895712007, guid: 222fc73895b282443bd0167095307671, type: 3}
   floatingTextCanvas: {fileID: 317691714}
 --- !u!61 &2076421688
@@ -34796,6 +34825,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6bafebffcba00084f8b89feea17f2891, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  collectibleID: 
   floatingTextPrefab: {fileID: 505641377895712007, guid: 222fc73895b282443bd0167095307671, type: 3}
   floatingTextCanvas: {fileID: 317691714}
 --- !u!61 &2089861294

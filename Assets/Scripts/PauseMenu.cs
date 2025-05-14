@@ -13,9 +13,9 @@ public class PauseMenu : MonoBehaviour
     public Button restartButton;
     public GameObject settingsPanel; // Panel for settings (empty for now)
 
-    // Player reference and starting position
-    public Transform player; // Reference to the player GameObject
-    public Transform startingPosition; // Reference to the starting position in the level
+    // Player reference and starting position (no longer needed if using PlayerRespawnManager)
+    public Transform player; 
+    public Transform startingPosition;
 
     void Start()
     {
@@ -74,13 +74,11 @@ public class PauseMenu : MonoBehaviour
     {
         Time.timeScale = 1f;
 
-        // ✅ Reset the score to the value when this level started
         if (ScoreManager.instance != null)
         {
             ScoreManager.instance.ResetToSceneStartScore();
         }
 
-        // Reload the current scene
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 }
