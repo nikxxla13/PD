@@ -1,14 +1,17 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using System.Collections;
 
 public class PlayerRespawnManager : MonoBehaviour
 {
     public static PlayerRespawnManager instance;
 
     [Header("Set this to an empty GameObject at the starting spawn point")]
-    public Transform startingPoint; // Drag your empty start-position GameObject here in the Inspector
+    public Transform startingPoint; // Will be assigned dynamically in each scene
 
     private Vector3 checkpointPosition;
+    private string previousSceneName = "";
+    private GameObject player;
 
     void Awake()
     {
@@ -23,7 +26,7 @@ public class PlayerRespawnManager : MonoBehaviour
             }
             else
             {
-                Debug.LogWarning("Starting Point not assigned in PlayerRespawnManager!");
+                Debug.LogWarning("Starting Point not assigned in PlayerRespawnManager at Awake.");
                 checkpointPosition = Vector3.zero;
             }
         }
@@ -45,7 +48,40 @@ public class PlayerRespawnManager : MonoBehaviour
 
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        Time.timeScale = 1f; // Ensure the game isn't paused after a restart
+        Time.timeScale = 1f;
+        StartCoroutine(DelayedSceneInit(scene.name));
+    }
+
+    private IEnumerator DelayedSceneInit(string sceneName)
+    {
+        // Wait a frame to allow SceneStartPoint to assign itself
+        yield return null;
+
+        if (sceneName != previousSceneName)
+        {
+            if (startingPoint != null)
+            {
+                checkpointPosition = startingPoint.position;
+                Debug.Log("Scene changed — reset checkpoint to: " + checkpointPosition);
+            }
+            else
+            {
+                Debug.LogWarning("Starting Point not assigned!");
+            }
+
+            previousSceneName = sceneName;
+        }
+
+        player = GameObject.FindGameObjectWithTag("Player");
+        if (player != null)
+        {
+            player.transform.position = checkpointPosition;
+            Debug.Log("Player moved to: " + checkpointPosition);
+        }
+        else
+        {
+            Debug.LogWarning("Player not found after scene load.");
+        }
     }
 
     public void SetCheckpoint(Vector3 newPosition)
@@ -58,4 +94,19 @@ public class PlayerRespawnManager : MonoBehaviour
     {
         return checkpointPosition;
     }
+
+    public void ResetToStartingPoint()
+    {
+        if (startingPoint != null)
+        {
+            SetCheckpoint(startingPoint.position);
+        }
+    }
+    
+    public void ForceSceneNameRefresh()
+    {
+        previousSceneName = SceneManager.GetActiveScene().name;
+        Debug.Log("✅ Scene name locked in after checkpoint: " + previousSceneName);
+    }
+
 }

@@ -38,7 +38,7 @@ public class Player : MonoBehaviour
     private float coyoteTime = 0.15f;
     private float coyoteTimeCounter;
 
-    void Start()
+    IEnumerator Start()
     {
         Debug.Log("Animator assigned: " + (anim != null));
         rb = GetComponent<Rigidbody2D>();
@@ -46,11 +46,7 @@ public class Player : MonoBehaviour
         currentHealth = maxHealth;
         UpdateHealthUI();
 
-        // 🏁 Set player position from latest checkpoint (or start point)
-        if (PlayerRespawnManager.instance != null)
-        {
-            transform.position = PlayerRespawnManager.instance.GetCheckpoint();
-        }
+        yield return null; // Let scene load finish before anything important happens
     }
 
     void Update()
@@ -84,19 +80,16 @@ public class Player : MonoBehaviour
         {
             rb.velocity = new Vector2(rb.velocity.x, jumpForce);
             canJump = false;
-            coyoteTimeCounter = 0f; // Prevent multiple jumps in grace window
+            coyoteTimeCounter = 0f;
             StartCoroutine(JumpCooldown());
         }
 
-        // ANIMATOR UPDATES
         if (anim != null)
         {
             anim.SetBool("isRunning", Mathf.Abs(moveInput) > 0.1f);
             anim.SetBool("isJumping", !isGrounded);
-            
         }
 
-        // MASK SWITCHING
         CheckForMaskSwitch();
     }
 
@@ -137,14 +130,7 @@ public class Player : MonoBehaviour
     {
         for (int i = 0; i < heartImages.Count; i++)
         {
-            if (i < currentHealth)
-            {
-                heartImages[i].gameObject.SetActive(true);
-            }
-            else
-            {
-                heartImages[i].gameObject.SetActive(false);
-            }
+            heartImages[i].gameObject.SetActive(i < currentHealth);
         }
     }
 

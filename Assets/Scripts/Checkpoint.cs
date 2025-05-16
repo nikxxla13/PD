@@ -11,11 +11,14 @@ public class Checkpoint : MonoBehaviour
             Vector3 checkpointPosition = transform.position;
             PlayerRespawnManager.instance.SetCheckpoint(checkpointPosition);
 
-            // ✅ Save the score at this checkpoint
+            // ✅ Save score at this checkpoint
             if (ScoreManager.instance != null)
             {
                 ScoreManager.instance.SaveCheckpointScore();
             }
+
+            // ✅ Lock in the scene name to avoid future resets
+            PlayerRespawnManager.instance.ForceSceneNameRefresh();
         }
     }
 }
