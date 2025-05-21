@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class SpeedMask : Mask
 {
-    private float speedBoost = 1.5f;
+    private float speedBoost = 2.5f;
 
     public override void ApplyEffect(Player player)
     {

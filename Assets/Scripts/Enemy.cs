@@ -42,4 +42,13 @@ public class Enemy : MonoBehaviour
             }
         }
     }
+
+    // 🎯 Draws a straight line to show activation distance
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.yellow;
+
+        // Draws a line showing activation range directly to the left (adjust as needed)
+        Gizmos.DrawLine(transform.position, transform.position + Vector3.left * activationDistance);
+    }
 }
