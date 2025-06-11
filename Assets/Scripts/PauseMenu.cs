@@ -16,6 +16,7 @@ public class PauseMenu : MonoBehaviour
     // Player reference and starting position (no longer needed if using PlayerRespawnManager)
     public Transform player; 
     public Transform startingPosition;
+    public float fallLimitY = 1f;
 
     void Start()
     {
@@ -42,6 +43,11 @@ public class PauseMenu : MonoBehaviour
                 PauseGame();
             }
         }
+
+        if (!isPaused && player.position.y < fallLimitY)
+    {
+        PauseGame();
+    }
     }
 
     void PauseGame()

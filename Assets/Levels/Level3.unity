@@ -50387,8 +50387,9 @@ MonoBehaviour:
   settingsButton: {fileID: 597359562}
   restartButton: {fileID: 1182870412}
   settingsPanel: {fileID: 2063712500}
-  player: {fileID: 0}
+  player: {fileID: 1909328695}
   startingPosition: {fileID: 1547880933}
+  fallLimitY: -15
 --- !u!4 &2002644729
 Transform:
   m_ObjectHideFlags: 0
